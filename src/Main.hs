@@ -91,13 +91,24 @@ releaseView view = do
     inputSelect "package.category" view
     H.br 
 
+nestedRouteHandler :: Snap ()
+nestedRouteHandler = do
+  writeText "nested"
+  ifTop (writeText "top") <|> route [("inner", innerNestedHandler)]
+
+innerNestedHandler :: Snap ()
+innerNestedHandler =
+  writeText "inner nested"
+
 
 main :: IO ()
 main = quickHttpServe site
 
 site :: Snap ()
 site =
-    ifTop (formHandler) 
+    ifTop (formHandler)  <|>
+    route [ ("nested", nestedRouteHandler) ]
+
 
 template :: H.Html -> H.Html
 template body = H.docTypeHtml $ do

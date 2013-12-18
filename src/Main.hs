@@ -93,7 +93,7 @@ releaseView view = do
 
 nestedRouteHandler :: Snap ()
 nestedRouteHandler = do
-  writeText "nested"
+  writeText "nested:"
   ifTop (writeText "top") <|> route [("inner", innerNestedHandler)]
 
 innerNestedHandler :: Snap ()
